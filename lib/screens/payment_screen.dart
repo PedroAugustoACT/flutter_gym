@@ -8,8 +8,7 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  bool isPixSelected =
-      false; // Adiciona um estado para saber se o Pix foi selecionado
+  bool isPixSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.lightBlue],
+            colors: [Colors.black, Colors.black],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -30,18 +29,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 16),
-                // Seção de seleção do método de pagamento
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      // Torna o botão flexível para ajustar-se ao espaço disponível
                       child: ElevatedButton(
                         style: PaymentStyles.paymentButtonStyle(!isPixSelected),
                         onPressed: () {
                           setState(() {
-                            isPixSelected =
-                                false; // Seleciona o pagamento por cartão
+                            isPixSelected = false;
                           });
                         },
                         child: Text(
@@ -52,13 +48,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     SizedBox(width: 16),
                     Expanded(
-                      // Torna o botão flexível para ajustar-se ao espaço disponível
                       child: ElevatedButton(
                         style: PaymentStyles.paymentButtonStyle(isPixSelected),
                         onPressed: () {
                           setState(() {
-                            isPixSelected =
-                                true; // Seleciona o pagamento por PIX
+                            isPixSelected = true;
                           });
                         },
                         child: Text(
@@ -70,7 +64,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                // Exibe o formulário de pagamento com cartão ou PIX, dependendo da seleção
                 isPixSelected
                     ? _buildPixPayment(context)
                     : _buildCardPaymentForm(context),
@@ -87,17 +80,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
       children: [
         TextField(
           decoration: PaymentStyles.textFieldDecoration('Número do Cartão'),
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: const Color(0xFFF4BF01)),
         ),
         const SizedBox(height: 16),
         TextField(
           decoration: PaymentStyles.textFieldDecoration('Data de Validade'),
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: const Color(0xFFF4BF01)),
         ),
         const SizedBox(height: 16),
         TextField(
           decoration: PaymentStyles.textFieldDecoration('Código de Segurança'),
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: const Color(0xFFF4BF01)),
         ),
         const SizedBox(height: 20),
         ElevatedButton(
@@ -107,8 +100,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           },
           child: Text(
             'Confirmar pagamento',
-            style: PaymentStyles.buttonTextStyle
-                .copyWith(color: Colors.blueAccent),
+            style: PaymentStyles.buttonTextStyle.copyWith(color: Colors.black),
           ),
         ),
       ],
@@ -121,10 +113,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        QrImageView(
-          data: pixData,
-          version: QrVersions.auto,
-          size: 200.0,
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.all(16.0),
+          child: QrImageView(
+            data: pixData,
+            version: QrVersions.auto,
+            size: 200.0,
+            foregroundColor: Colors.black,
+          ),
         ),
         const SizedBox(height: 16),
         Text(
@@ -140,8 +140,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           },
           child: Text(
             'Confirmar pagamento',
-            style: PaymentStyles.buttonTextStyle
-                .copyWith(color: Colors.blueAccent),
+            style: PaymentStyles.buttonTextStyle.copyWith(color: Colors.black),
           ),
         ),
       ],

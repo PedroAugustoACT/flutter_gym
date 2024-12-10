@@ -54,7 +54,7 @@ class _IMCScreenState extends State<IMCScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.lightBlue],
+            colors: [Colors.black, Colors.black],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -71,7 +71,7 @@ class _IMCScreenState extends State<IMCScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: const Color(0xFFF4BF01),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -83,7 +83,7 @@ class _IMCScreenState extends State<IMCScreen> {
                   controller: _heightController,
                   keyboardType: TextInputType.number,
                   decoration: IMCStyles.textFieldDecoration('Altura (m)'),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: const Color(0xFFF4BF01)),
                 ),
               ),
               const SizedBox(height: 16),
@@ -93,7 +93,7 @@ class _IMCScreenState extends State<IMCScreen> {
                   controller: _weightController,
                   keyboardType: TextInputType.number,
                   decoration: IMCStyles.textFieldDecoration('Peso (kg)'),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: const Color(0xFFF4BF01)),
                 ),
               ),
 

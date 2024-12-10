@@ -4,7 +4,7 @@ class PaymentStyles {
   // Estilo do botão de pagamento (Cartão / PIX)
   static ButtonStyle paymentButtonStyle(bool isSelected) {
     return ElevatedButton.styleFrom(
-      backgroundColor: isSelected ? Colors.blueAccent : Colors.grey,
+      backgroundColor: isSelected ? const Color(0xFFF4BF01) : Colors.grey,
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       textStyle: TextStyle(fontSize: 16),
     );
@@ -14,16 +14,16 @@ class PaymentStyles {
   static InputDecoration textFieldDecoration(String label, {IconData? icon}) {
     return InputDecoration(
       labelText: label,
-      prefixIcon: icon != null ? Icon(icon, color: Colors.white70) : null,
+      prefixIcon: icon != null ? Icon(icon, color: const Color(0xFFF4BF01)) : null,
       filled: true,
-      fillColor: Colors.white.withOpacity(0.1),
-      labelStyle: TextStyle(color: Colors.white70),
+      fillColor: const Color(0xFFF4BF01).withOpacity(0.1),
+      labelStyle: TextStyle(color: const Color(0xFFF4BF01)),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white70),
+        borderSide: BorderSide(color: const Color(0xFFF4BF01)),
         borderRadius: BorderRadius.circular(12),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
+        borderSide: BorderSide(color: const Color(0xFFF4BF01)),
         borderRadius: BorderRadius.circular(12),
       ),
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -33,8 +33,8 @@ class PaymentStyles {
   // Estilo do botão de confirmação de pagamento
   static ButtonStyle confirmButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.blueAccent,
+      backgroundColor: const Color(0xFFF4BF01),
+      foregroundColor: Colors.black,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -48,13 +48,13 @@ class PaymentStyles {
     fontFamily: 'Montserrat',
     fontSize: 16,
     fontWeight: FontWeight.bold,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   // Estilo do texto para o Pix
   static const pixTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
-    color: Colors.white,
+    color: const Color(0xFFF4BF01),
   );
 }

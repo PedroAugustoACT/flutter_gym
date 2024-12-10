@@ -5,16 +5,17 @@ class IMCStyles {
   static InputDecoration textFieldDecoration(String label, {IconData? icon}) {
     return InputDecoration(
       labelText: label,
-      prefixIcon: icon != null ? Icon(icon, color: Colors.white70) : null,
+      prefixIcon:
+          icon != null ? Icon(icon, color: const Color(0xFFF4BF01)) : null,
       filled: true,
-      fillColor: Colors.white.withOpacity(0.1),
-      labelStyle: TextStyle(color: Colors.white70),
+      fillColor: const Color(0xFFF4BF01).withOpacity(0.1),
+      labelStyle: TextStyle(color: const Color(0xFFF4BF01)),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white70),
+        borderSide: BorderSide(color: const Color(0xFFF4BF01)),
         borderRadius: BorderRadius.circular(12),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
+        borderSide: BorderSide(color: const Color(0xFFF4BF01)),
         borderRadius: BorderRadius.circular(12),
       ),
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -24,8 +25,8 @@ class IMCStyles {
   // Estilo para o botão de cálculo
   static ButtonStyle calculateButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.blueAccent,
+      backgroundColor: const Color(0xFFF4BF01),
+      foregroundColor: Colors.black,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -47,7 +48,7 @@ class IMCStyles {
   static AppBar appBarStyle(String title) {
     return AppBar(
       title: Text(title),
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.black,
     );
   }
 }

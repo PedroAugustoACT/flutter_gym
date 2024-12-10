@@ -8,7 +8,7 @@ class SignupScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.lightBlue],
+            colors: [Colors.black, Colors.black],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -35,7 +35,7 @@ class SignupScreen extends StatelessWidget {
                     'Nome',
                     icon: Icons.person_outline,
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: const Color(0xFFF4BF01)),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -43,7 +43,7 @@ class SignupScreen extends StatelessWidget {
                     'Email',
                     icon: Icons.email_outlined,
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: const Color(0xFFF4BF01)),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -51,11 +51,10 @@ class SignupScreen extends StatelessWidget {
                     'Senha',
                     icon: Icons.lock_outline,
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: const Color(0xFFF4BF01)),
                   obscureText: true,
                 ),
                 const SizedBox(height: 24),
-                // Botão de cadastro
                 ElevatedButton(
                   style: LoginStyles.elevatedButtonStyle(),
                   onPressed: () {
