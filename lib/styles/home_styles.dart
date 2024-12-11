@@ -43,12 +43,11 @@ class HomeStyles {
   // Estilo do subtítulo nos cards
 static const cardSubtitleStyle = TextStyle(
   fontSize: 16,
-  fontWeight: FontWeight.w600, // Peso SemiBold
-  fontStyle: FontStyle.italic, // Aplica o estilo itálico
-  fontFamily: 'Montserrat', // Especifica a família da fonte
+  fontWeight: FontWeight.w600, 
+  fontStyle: FontStyle.italic, 
+  fontFamily: 'Montserrat', 
   color: Colors.black,
 );
-
 
 
   // Configurações gerais do Card

@@ -7,14 +7,14 @@ import '../screens/imc_screen.dart';
 import '../services/auth_service.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
-  '/': (context) => LoginScreen(), // Tela de login
+  '/': (context) => LoginScreen(),
   '/signup': (context) => SignupScreen(),
   '/home': (context) {
     final user = AuthService.currentUser;
     if (user != null) {
-      return HomeScreen(user: user);  // Passando o usuário logado
+      return HomeScreen(user: user); 
     } else {
-      return LoginScreen();  // Redireciona para a tela de login se o usuário não estiver logado
+      return LoginScreen();
     }
   },
   '/payment': (context) => PaymentScreen(),

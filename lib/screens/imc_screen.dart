@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../styles/imc_styles.dart';
 
 class IMCScreen extends StatefulWidget {
@@ -7,25 +8,30 @@ class IMCScreen extends StatefulWidget {
 }
 
 class _IMCScreenState extends State<IMCScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _heightController = TextEditingController();
   final _weightController = TextEditingController();
   String _result = '';
 
   void _calculateIMC() {
-    final height = double.tryParse(_heightController.text);
-    final weight = double.tryParse(_weightController.text);
+    if (_formKey.currentState!.validate()) {
+      final height =
+          double.tryParse(_heightController.text.replaceAll(',', '.'));
+      final weight =
+          double.tryParse(_weightController.text.replaceAll(',', '.'));
 
-    if (height != null && weight != null && height > 0 && weight > 0) {
-      final imc = weight / (height * height);
-      setState(() {
-        _result =
-            'Seu IMC é ${imc.toStringAsFixed(2)} (${_getIMCClassification(imc)})';
-      });
-      Navigator.pushNamed(context, '/home');
-    } else {
-      setState(() {
-        _result = 'Por favor, insira valores válidos.';
-      });
+      if (height != null && weight != null && height > 0 && weight > 0) {
+        final imc = weight / (height * height);
+        setState(() {
+          _result =
+              'Seu IMC é ${imc.toStringAsFixed(2)} (${_getIMCClassification(imc)})';
+        });
+        Navigator.pushNamed(context, '/home');
+      } else {
+        setState(() {
+          _result = 'Por favor, insira valores válidos.';
+        });
+      }
     }
   }
 
@@ -87,50 +93,82 @@ class _IMCScreenState extends State<IMCScreen> {
                   minHeight: constraints.maxHeight,
                 ),
                 child: IntrinsicHeight(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 200),
-                        child: Text(
-                          'Para começar, precisamos de algumas informações para melhor lhe atender',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 200),
+                          child: Text(
+                            'Para começar, precisamos de algumas informações para melhor lhe atender',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: TextField(
-                          controller: _heightController,
-                          keyboardType: TextInputType.number,
-                          decoration: IMCStyles.textFieldDecoration('Altura (m)'),
-                          style: TextStyle(color: Colors.white),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: TextFormField(
+                            controller: _heightController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9.,]')),
+                            ],
+                            decoration:
+                                IMCStyles.textFieldDecoration('Altura (m)'),
+                            style: TextStyle(color: Colors.white),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'A altura é obrigatória.';
+                              }
+                              if (double.tryParse(value.replaceAll(',', '.')) ==
+                                  null) {
+                                return 'Insira uma altura válida.';
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: TextField(
-                          controller: _weightController,
-                          keyboardType: TextInputType.number,
-                          decoration: IMCStyles.textFieldDecoration('Peso (kg)'),
-                          style: TextStyle(color: Colors.white),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: TextFormField(
+                            controller: _weightController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9.,]')),
+                            ],
+                            decoration:
+                                IMCStyles.textFieldDecoration('Peso (kg)'),
+                            style: TextStyle(color: Colors.white),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'O peso é obrigatório.';
+                              }
+                              if (double.tryParse(value.replaceAll(',', '.')) ==
+                                  null) {
+                                return 'Insira um peso válido.';
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 40),
-                      // Centralização do botão
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: _calculateIMC,
-                          child: Text('Continuar'),
-                          style: IMCStyles.calculateButtonStyle(),
+                        const SizedBox(height: 40),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: _calculateIMC,
+                            child: Text('Continuar'),
+                            style: IMCStyles.calculateButtonStyle(),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../styles/signup_styles.dart';
 
 class SignupScreen extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,55 +43,87 @@ class SignupScreen extends StatelessWidget {
                   minHeight: constraints.maxHeight,
                 ),
                 child: IntrinsicHeight(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 150),
-                        child: Text(
-                          'Criar Conta',
-                          style: SignupStyles.welcomeTextStyle,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 150),
+                          child: Text(
+                            'Criar Conta',
+                            style: SignupStyles.welcomeTextStyle,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Preencha os campos abaixo para continuar',
-                        style: SignupStyles.subtitleTextStyle,
-                      ),
-                      const SizedBox(height: 32),
-                      TextField(
-                        decoration: SignupStyles.textFieldDecoration(
-                          'Nome',
-                          icon: Icons.person_outline,
+                        const SizedBox(height: 8),
+                        Text(
+                          'Preencha os campos abaixo para continuar',
+                          style: SignupStyles.subtitleTextStyle,
                         ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        decoration: SignupStyles.textFieldDecoration(
-                          'Email',
-                          icon: Icons.email_outlined,
+                        const SizedBox(height: 32),
+                        TextFormField(
+                          decoration: SignupStyles.textFieldDecoration(
+                            'Nome',
+                            icon: Icons.person_outline,
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'O nome é obrigatório.';
+                            }
+                            return null;
+                          },
                         ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        decoration: SignupStyles.textFieldDecoration(
-                          'Senha',
-                          icon: Icons.lock_outline,
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          decoration: SignupStyles.textFieldDecoration(
+                            'Email',
+                            icon: Icons.email_outlined,
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'O e-mail é obrigatório.';
+                            }
+                            final emailRegex = RegExp(
+                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                            if (!emailRegex.hasMatch(value)) {
+                              return 'Por favor, insira um e-mail válido.';
+                            }
+                            return null;
+                          },
                         ),
-                        style: const TextStyle(color: Colors.white),
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        style: SignupStyles.elevatedButtonStyle(),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/payment');
-                        },
-                        child: const Center(child: Text('Continuar')),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          decoration: SignupStyles.textFieldDecoration(
+                            'Senha',
+                            icon: Icons.lock_outline,
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'A senha é obrigatória.';
+                            }
+                            if (value.length < 6) {
+                              return 'A senha deve ter pelo menos 6 caracteres.';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                        ElevatedButton(
+                          style: SignupStyles.elevatedButtonStyle(),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              Navigator.pushNamed(context, '/payment');
+                            }
+                          },
+                          child: const Center(child: Text('Continuar')),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

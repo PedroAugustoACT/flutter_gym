@@ -25,10 +25,10 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        centerTitle: true, // Centraliza o conteúdo da AppBar
+        centerTitle: true,
         title: Image.asset(
-          'assets/images/logo-smart-fit-2048.png', // Substitua pelo caminho da sua logo
-          height: 100, // Ajuste a altura da logo
+          'assets/images/logo-smart-fit-2048.png',
+          height: 100,
         ),
         actions: [
           IconButton(

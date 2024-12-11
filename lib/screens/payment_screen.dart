@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import '../styles/payment_styles.dart';
+import '../widgets/card_payment.dart';
+import '../widgets/pix_payment.dart';
 
 class PaymentScreen extends StatefulWidget {
   @override
@@ -95,10 +96,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    // Selecione o conteúdo baseado na opção PIX ou Cartão
-                    isPixSelected
-                        ? _buildPixPayment(context)
-                        : _buildCardPaymentForm(context),
+                    isPixSelected ? PixPayment() : CardPaymentForm(),
                   ],
                 ),
               ),
@@ -106,77 +104,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildCardPaymentForm(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          decoration: PaymentStyles.textFieldDecoration('Número do Cartão'),
-          style: const TextStyle(color: Colors.white),
-        ),
-        const SizedBox(height: 16),
-        TextField(
-          decoration: PaymentStyles.textFieldDecoration('Data de Validade'),
-          style: const TextStyle(color: Colors.white),
-        ),
-        const SizedBox(height: 16),
-        TextField(
-          decoration: PaymentStyles.textFieldDecoration('Código de Segurança'),
-          style: const TextStyle(color: Colors.white),
-        ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          style: PaymentStyles.confirmButtonStyle(),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/imc');
-          },
-          child: Text(
-            'Confirmar pagamento',
-            style: PaymentStyles.buttonTextStyle.copyWith(color: Colors.black),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPixPayment(BuildContext context) {
-    String pixData = 'pix:chave-do-pagamento-fake';
-
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.all(16.0),
-          child: QrImageView(
-            data: pixData,
-            version: QrVersions.auto,
-            size: 200.0,
-            foregroundColor: Colors.black,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Leia o QR Code acima para concluir o pagamento.',
-          style: PaymentStyles.pixTextStyle,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          style: PaymentStyles.confirmButtonStyle(),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/imc');
-          },
-          child: Text(
-            'Confirmar pagamento',
-            style: PaymentStyles.buttonTextStyle.copyWith(color: Colors.black),
-          ),
-        ),
-      ],
     );
   }
 }
