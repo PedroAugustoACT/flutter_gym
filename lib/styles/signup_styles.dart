@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class LoginStyles {
+class SignupStyles {
   // Estilo para o texto de boas-vindas
   static const welcomeTextStyle = TextStyle(
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );

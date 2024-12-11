@@ -7,16 +7,16 @@ class HomeScreen extends StatelessWidget {
 
   const HomeScreen({Key? key, required this.user}) : super(key: key);
 
-  String _getImcStatus(double imc) {
-    if (imc < 18.5) return "abaixo do peso";
-    if (imc >= 18.5 && imc < 24.9) return "com peso ideal";
-    return "com sobrepeso";
+  // Função que determina o tipo de treino com base no IMC
+  String _getTrainingType(double imc) {
+    if (imc < 18.5) return "Treino Muscular";
+    if (imc >= 18.5 && imc < 24.9) return "Treino Funcional";
+    return "Treino Intervalado de Baixa Intensidade (LIIT)";
   }
 
   void _logout(BuildContext context) {
-    AuthService.logout(); 
-    Navigator.pushReplacementNamed(
-        context, '/');
+    AuthService.logout();
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   @override
@@ -25,6 +25,11 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
+        centerTitle: true, // Centraliza o conteúdo da AppBar
+        title: Image.asset(
+          'assets/images/logo-smart-fit-2048.png', // Substitua pelo caminho da sua logo
+          height: 100, // Ajuste a altura da logo
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings, color: const Color(0xFFF4BF01)),
@@ -60,28 +65,29 @@ class HomeScreen extends StatelessWidget {
                     Text('👋 Olá, ${user['name']}!',
                         style: HomeStyles.welcomeTextStyle),
                     const SizedBox(height: 8),
-                    Text(
-                      'Explore as funcionalidades da aplicação.',
-                      style: HomeStyles.subtitleTextStyle,
-                    ),
                   ],
                 ),
               ),
-              // Cards abaixo do título
               Expanded(
                 child: ListView(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   children: [
                     CardWidget(
-                      title: "IMC",
+                      title: "Calcular IMC",
                       subtitle:
-                          "Seu IMC é ${user['imc'].toStringAsFixed(1)}, você está ${_getImcStatus(user['imc'])}.",
+                          "Seu IMC é ${user['imc'].toStringAsFixed(1)}, você está ${_getImcStatus(user['imc'])}",
                     ),
                     const SizedBox(height: 16),
                     CardWidget(
                       title: "Meus Treinos",
-                      subtitle: "Treinos sugeridos para você.",
+                      subtitle:
+                          "Treino sugerido: ${_getTrainingType(user['imc'])}",
+                    ),
+                    const SizedBox(height: 16),
+                    CardWidget(
+                      title: "Academias",
+                      subtitle: "Descubra a SmartFit mais próxima de você",
                     ),
                   ],
                 ),
@@ -91,6 +97,13 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Função que determina o status do IMC
+  String _getImcStatus(double imc) {
+    if (imc < 18.5) return "abaixo do peso";
+    if (imc >= 18.5 && imc < 24.9) return "com peso ideal";
+    return "com sobrepeso";
   }
 }
 
@@ -109,9 +122,10 @@ class CardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 100,
+      // Ajuste a altura para se ajustar melhor ao conteúdo
+      height: 120, 
       child: Card(
-        color: const Color(0xFFF4BF01),
+        color: Colors.white,
         shape: HomeStyles.cardShape,
         elevation: HomeStyles.cardElevation,
         child: Padding(
@@ -122,7 +136,14 @@ class CardWidget extends StatelessWidget {
             children: [
               Text(title, style: HomeStyles.cardTitleStyle),
               const SizedBox(height: 8),
-              Text(subtitle, style: HomeStyles.cardSubtitleStyle),
+              Expanded(
+                child: Text(
+                  subtitle,
+                  style: HomeStyles.cardSubtitleStyle,
+                  overflow: TextOverflow.ellipsis, 
+                  maxLines: 2, 
+                ),
+              ),
             ],
           ),
         ),

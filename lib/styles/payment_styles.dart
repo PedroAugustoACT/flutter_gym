@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class PaymentStyles {
+  // Estilo da mensagem de seleção
+  static const selectionMessageStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+
   // Estilo do botão de pagamento (Cartão / PIX)
   static ButtonStyle paymentButtonStyle(bool isSelected) {
     return ElevatedButton.styleFrom(

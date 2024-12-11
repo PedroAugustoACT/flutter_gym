@@ -13,6 +13,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFFF4BF01)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Center(
+          child: Image.asset(
+            'assets/images/logo-smart-fit-2048.png',
+            height: 100,
+          ),
+        ),
+        actions: [
+          Container(width: 48),
+        ],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -21,55 +40,70 @@ class _PaymentScreenState extends State<PaymentScreen> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: PaymentStyles.paymentButtonStyle(!isPixSelected),
-                        onPressed: () {
-                          setState(() {
-                            isPixSelected = false;
-                          });
-                        },
-                        child: Text(
-                          'Cartão',
-                          style: PaymentStyles.buttonTextStyle,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 150),
+                      child: Text(
+                        'Selecione a forma de pagamento',
+                        style: PaymentStyles.selectionMessageStyle,
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: PaymentStyles.paymentButtonStyle(isPixSelected),
-                        onPressed: () {
-                          setState(() {
-                            isPixSelected = true;
-                          });
-                        },
-                        child: Text(
-                          'PIX',
-                          style: PaymentStyles.buttonTextStyle,
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: PaymentStyles.paymentButtonStyle(
+                                !isPixSelected),
+                            onPressed: () {
+                              setState(() {
+                                isPixSelected = false;
+                              });
+                            },
+                            child: Text(
+                              'Cartão',
+                              style: PaymentStyles.buttonTextStyle,
+                            ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton(
+                            style:
+                                PaymentStyles.paymentButtonStyle(isPixSelected),
+                            onPressed: () {
+                              setState(() {
+                                isPixSelected = true;
+                              });
+                            },
+                            child: Text(
+                              'PIX',
+                              style: PaymentStyles.buttonTextStyle,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 20),
+                    // Selecione o conteúdo baseado na opção PIX ou Cartão
+                    isPixSelected
+                        ? _buildPixPayment(context)
+                        : _buildCardPaymentForm(context),
                   ],
                 ),
-                const SizedBox(height: 20),
-                isPixSelected
-                    ? _buildPixPayment(context)
-                    : _buildCardPaymentForm(context),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -80,17 +114,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
       children: [
         TextField(
           decoration: PaymentStyles.textFieldDecoration('Número do Cartão'),
-          style: TextStyle(color: const Color(0xFFF4BF01)),
+          style: const TextStyle(color: Colors.white),
         ),
         const SizedBox(height: 16),
         TextField(
           decoration: PaymentStyles.textFieldDecoration('Data de Validade'),
-          style: TextStyle(color: const Color(0xFFF4BF01)),
+          style: const TextStyle(color: Colors.white),
         ),
         const SizedBox(height: 16),
         TextField(
           decoration: PaymentStyles.textFieldDecoration('Código de Segurança'),
-          style: TextStyle(color: const Color(0xFFF4BF01)),
+          style: const TextStyle(color: Colors.white),
         ),
         const SizedBox(height: 20),
         ElevatedButton(
@@ -111,7 +145,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     String pixData = 'pix:chave-do-pagamento-fake';
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           decoration: BoxDecoration(

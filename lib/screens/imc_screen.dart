@@ -51,6 +51,25 @@ class _IMCScreenState extends State<IMCScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFFF4BF01)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Center(
+          child: Image.asset(
+            'assets/images/logo-smart-fit-2048.png',
+            height: 100,
+          ),
+        ),
+        actions: [
+          Container(width: 48),
+        ],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -59,52 +78,64 @@ class _IMCScreenState extends State<IMCScreen> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'Para começar, precisamos de algumas informações para melhor lhe atender',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFFF4BF01),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 200),
+                        child: Text(
+                          'Para começar, precisamos de algumas informações para melhor lhe atender',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TextField(
+                          controller: _heightController,
+                          keyboardType: TextInputType.number,
+                          decoration: IMCStyles.textFieldDecoration('Altura (m)'),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TextField(
+                          controller: _weightController,
+                          keyboardType: TextInputType.number,
+                          decoration: IMCStyles.textFieldDecoration('Peso (kg)'),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      // Centralização do botão
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: _calculateIMC,
+                          child: Text('Continuar'),
+                          style: IMCStyles.calculateButtonStyle(),
+                        ),
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextField(
-                  controller: _heightController,
-                  keyboardType: TextInputType.number,
-                  decoration: IMCStyles.textFieldDecoration('Altura (m)'),
-                  style: TextStyle(color: const Color(0xFFF4BF01)),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextField(
-                  controller: _weightController,
-                  keyboardType: TextInputType.number,
-                  decoration: IMCStyles.textFieldDecoration('Peso (kg)'),
-                  style: TextStyle(color: const Color(0xFFF4BF01)),
-                ),
-              ),
-
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: _calculateIMC,
-                child: Text('Calcular IMC'),
-                style: IMCStyles.calculateButtonStyle(),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

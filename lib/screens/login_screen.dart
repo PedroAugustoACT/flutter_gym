@@ -35,58 +35,82 @@ class _LoginScreenState extends State<LoginScreen> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Mensagens de erro
-                if (errorMessage != null)
-                  Text(
-                    errorMessage!,
-                    style: const TextStyle(color: Colors.red),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Image.asset(
+                          'assets/images/logo-smart-fit-2048.png',
+                          height: 250,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: Column(
+                          children: [
+                            Text('Transforme-se agora!',
+                                style: LoginStyles.welcomeTextStyle),
+                            const SizedBox(height: 4),
+                            Text('Entre e comece a sua jornada fitness agora!',
+                                style: LoginStyles.subtitleTextStyle),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      TextField(
+                        controller: _emailController,
+                        decoration: LoginStyles.textFieldDecoration('Email',
+                            icon: Icons.email_outlined),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _passwordController,
+                        decoration: LoginStyles.textFieldDecoration('Senha',
+                            icon: Icons.lock_outline),
+                        style: const TextStyle(color: Colors.white),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 16),
+                      if (errorMessage != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: Text(
+                            errorMessage!,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        style: LoginStyles.elevatedButtonStyle(),
+                        onPressed: _handleLogin,
+                        child: const Center(child: Text('Entrar')),
+                      ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/signup');
+                          },
+                          child: Text('Cadastrar-se',
+                              style: LoginStyles.textButtonStyle()),
+                        ),
+                      ),
+                    ],
                   ),
-                const SizedBox(height: 16),
-                Text('Bem-vindo!', style: LoginStyles.welcomeTextStyle),
-                const SizedBox(height: 8),
-                Text('Entre para continuar',
-                    style: LoginStyles.subtitleTextStyle),
-                const SizedBox(height: 32),
-                TextField(
-                  controller: _emailController,
-                  decoration: LoginStyles.textFieldDecoration('Email',
-                      icon: Icons.email_outlined),
-                  style: const TextStyle(color: Color(0xFFF4BF01)),
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _passwordController,
-                  decoration: LoginStyles.textFieldDecoration('Senha',
-                      icon: Icons.lock_outline),
-                  style: const TextStyle(color: Color(0xFFF4BF01)),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  style: LoginStyles.elevatedButtonStyle(),
-                  onPressed: _handleLogin,
-                  child: const Center(child: Text('Entrar')),
-                ),
-                // Botão Cadastro
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signup');
-                    },
-                    child: Text('Cadastrar-se',
-                        style: LoginStyles.textButtonStyle()),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
